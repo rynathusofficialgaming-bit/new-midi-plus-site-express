@@ -8,9 +8,9 @@ export const SECURE_CONFIG = {
   midiLinks: {
     "Hip Hop": {
       "C Major - A Minor": [
-        "https://www.dropbox.com/s/example_hiphop_cmajor_1/hiphop-cmajor-1.mid?dl=1",
-        "https://www.dropbox.com/s/example_hiphop_cmajor_2/hiphop-cmajor-2.mid?dl=1",
-        "https://www.dropbox.com/s/example_hiphop_cmajor_3/hiphop-cmajor-3.mid?dl=1"
+        "https://www.dropbox.com/scl/fi/7y7ttwrzf1pkz4xy2keyv/midi1.mid?rlkey=hy5cbfea5ioolvmh5bkmp7gdh&st=ynu9cu4z&dl=1",
+        "https://www.dropbox.com/scl/fi/7y7ttwrzf1pkz4xy2keyv/midi1.mid?rlkey=hy5cbfea5ioolvmh5bkmp7gdh&st=ynu9cu4z&dl=1",
+        "https://www.dropbox.com/scl/fi/7y7ttwrzf1pkz4xy2keyv/midi1.mid?rlkey=hy5cbfea5ioolvmh5bkmp7gdh&st=ynu9cu4z&dl=1"
       ],
       "G Major - E Minor": [
         "https://www.dropbox.com/s/example_hiphop_gmajor_1/hiphop-gmajor-1.mid?dl=1"
