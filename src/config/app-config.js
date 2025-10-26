@@ -3,6 +3,13 @@ export const APP_CONFIG = {
     enabled: false,
     reason: "We're upgrading our systems to bring you even better MIDI files! We'll be back shortly."
   },
+
+  security: {
+    devtoolsBlocker: {
+      enabled: true,
+      redirectUrl: "https://www.google.com"
+    }
+  },
   
   theme: {
     current: "christmas",
