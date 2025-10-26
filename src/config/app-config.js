@@ -17,10 +17,10 @@ export const APP_CONFIG = {
   },
   
   generation: {
-    minTime: 3000,
-    maxTime: 8000,
-    fakeErrorEnabled: false,
-    fakeErrorChance: 0.5
+    minTime: 60000,
+    maxTime: 120000,
+    fakeErrorEnabled: true,
+    fakeErrorChance: 0.2
   },
   
   genres: {
