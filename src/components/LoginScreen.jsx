@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Music, Lock, User } from 'lucide-react';
+import { Music, Lock, User, ShoppingCart } from 'lucide-react';
 import { authService } from '@/services/auth-service';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
+import { APP_CONFIG } from '@/config/app-config';
 
 const LoginScreen = ({ onLogin }) => {
   const [username, setUsername] = useState('');
@@ -33,6 +34,12 @@ const LoginScreen = ({ onLogin }) => {
       }
       setIsLoading(false);
     }, 800);
+  };
+
+  const handlePurchase = () => {
+    if (APP_CONFIG.purchaseUrl) {
+      window.location.href = APP_CONFIG.purchaseUrl;
+    }
   };
 
   return (
@@ -101,6 +108,25 @@ const LoginScreen = ({ onLogin }) => {
               {isLoading ? 'Authenticating...' : 'Login'}
             </Button>
           </form>
+
+          {APP_CONFIG.purchaseUrl && (
+            <>
+              <div className="relative flex py-5 items-center">
+                  <div className="flex-grow border-t border-slate-700"></div>
+                  <span className="flex-shrink mx-4 text-slate-500">Or</span>
+                  <div className="flex-grow border-t border-slate-700"></div>
+              </div>
+  
+              <Button
+                onClick={handlePurchase}
+                variant="outline"
+                className="w-full bg-transparent border-slate-600 text-slate-300 hover:bg-slate-800 hover:text-white font-semibold py-3 rounded-lg transition-all"
+              >
+                <ShoppingCart className="w-4 h-4 mr-2" />
+                Purchase Access
+              </Button>
+            </>
+          )}
 
           <div className="mt-6 text-center text-sm text-slate-400">
             <p>Secure access to premium MIDI generation</p>
