@@ -1,6 +1,6 @@
 export const APP_CONFIG = {
   maintenance: {
-    enabled: true,
+    enabled: false,
     reason: "We're upgrading our systems to bring you even better MIDI files! We'll be back shortly."
   },
 
