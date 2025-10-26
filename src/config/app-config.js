@@ -24,16 +24,16 @@ export const APP_CONFIG = {
   },
   
   genres: {
-    "Hip Hop": { enabled: true },
-    "Trap": { enabled: true },
-    "Lo-Fi": { enabled: true },
-    "House": { enabled: false },
-    "Techno": { enabled: true },
-    "Drum & Bass": { enabled: true },
-    "Ambient": { enabled: true },
-    "Pop": { enabled: true },
-    "R&B": { enabled: true },
-    "EDM": { enabled: true }
+    "Hip Hop": { enabled: false },
+    "Trap": { enabled: false },
+    "Lo-Fi": { enabled: false },
+    "House": { enabled: true },
+    "Techno": { enabled: false },
+    "Drum & Bass": { enabled: false },
+    "Ambient": { enabled: false },
+    "Pop": { enabled: false },
+    "R&B": { enabled: false },
+    "EDM": { enabled: false }
   },
   
   keys: [
