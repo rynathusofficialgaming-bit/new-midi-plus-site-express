@@ -12,7 +12,7 @@ export const APP_CONFIG = {
   },
   
   theme: {
-    current: "christmas",
+    current: "default",
     available: ["default", "christmas", "halloween"]
   },
   
