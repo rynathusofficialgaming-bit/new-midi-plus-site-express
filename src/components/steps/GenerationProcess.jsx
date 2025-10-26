@@ -3,14 +3,26 @@ import { motion } from 'framer-motion';
 import { Loader2, AlertCircle } from 'lucide-react';
 import { midiService } from '@/services/midi-service';
 import { Button } from '@/components/ui/button';
+import { APP_CONFIG } from '@/config/app-config';
+
+// Function to shuffle an array
+const shuffleArray = (array) => {
+  let currentIndex = array.length, randomIndex;
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+  return array;
+};
 
 const GenerationProcess = ({ genre, musicKey, onComplete }) => {
-  const [currentMessage, setCurrentMessage] = useState('');
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [showError, setShowError] = useState(false);
-  const [isPreparing, setIsPreparing] = useState(true);
 
   const willError = useMemo(() => midiService.shouldShowFakeError(), []);
+  const shuffledMessages = useMemo(() => shuffleArray([...APP_CONFIG.loadingMessages]), []);
 
   useEffect(() => {
     let messageTimer, progressTimer, completionTimer, errorTimeout;
@@ -18,17 +30,14 @@ const GenerationProcess = ({ genre, musicKey, onComplete }) => {
     if (willError) {
       errorTimeout = setTimeout(() => {
         setShowError(true);
-        setIsPreparing(false);
       }, 2000 + Math.random() * 1500);
     } else {
       const generationTime = midiService.getRandomGenerationTime();
-      const messageInterval = 800;
+      const messageInterval = Math.max(800, generationTime / shuffledMessages.length);
       const progressInterval = 50;
       
-      setIsPreparing(false);
-
       messageTimer = setInterval(() => {
-        setCurrentMessage(midiService.getRandomLoadingMessage());
+        setCurrentMessageIndex(prev => (prev + 1) % shuffledMessages.length);
       }, messageInterval);
 
       progressTimer = setInterval(() => {
@@ -50,7 +59,7 @@ const GenerationProcess = ({ genre, musicKey, onComplete }) => {
       clearTimeout(completionTimer);
       clearTimeout(errorTimeout);
     };
-  }, [genre, musicKey, onComplete, willError]);
+  }, [genre, musicKey, onComplete, willError, shuffledMessages]);
 
   const handleRetry = () => {
     window.location.reload();
@@ -100,13 +109,13 @@ const GenerationProcess = ({ genre, musicKey, onComplete }) => {
       </motion.div>
 
       <motion.h2
-        key={currentMessage || 'Preparing generation...'}
+        key={shuffledMessages[currentMessageIndex]}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -10 }}
         className="text-2xl font-semibold text-white mb-8 text-center"
       >
-        {isPreparing ? 'Preparing generation...' : currentMessage}
+        {shuffledMessages[currentMessageIndex]}
       </motion.h2>
 
       <div className="w-full max-w-md">
