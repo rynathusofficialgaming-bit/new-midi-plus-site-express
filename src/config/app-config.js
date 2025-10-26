@@ -4,6 +4,8 @@ export const APP_CONFIG = {
     reason: "We're upgrading our systems to bring you even better MIDI files! We'll be back shortly."
   },
 
+  purchaseUrl: "https://www.hostinger.com",
+
   security: {
     devtoolsBlocker: {
       enabled: true,
