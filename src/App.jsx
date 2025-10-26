@@ -6,6 +6,7 @@ import LoginScreen from '@/components/LoginScreen';
 import MaintenanceScreen from '@/components/MaintenanceScreen';
 import MidiGenerator from '@/components/MidiGenerator';
 import ThemeEffects from '@/components/ThemeEffects';
+import DevToolsBlocker from '@/components/DevToolsBlocker';
 import { Toaster } from '@/components/ui/toaster';
 
 function App() {
@@ -30,32 +31,40 @@ function App() {
     return null;
   }
 
-  if (APP_CONFIG.maintenance.enabled) {
+  const AppContent = () => {
+    if (APP_CONFIG.maintenance.enabled) {
+      return (
+        <>
+          <Helmet>
+            <title>MIDI PLUS - Maintenance</title>
+            <meta name="description" content="MIDI PLUS is currently under maintenance" />
+          </Helmet>
+          <MaintenanceScreen reason={APP_CONFIG.maintenance.reason} />
+        </>
+      );
+    }
+
     return (
       <>
         <Helmet>
-          <title>MIDI PLUS - Maintenance</title>
-          <meta name="description" content="MIDI PLUS is currently under maintenance" />
+          <title>MIDI PLUS - AI MIDI Generator</title>
+          <meta name="description" content="Generate professional MIDI files with AI technology" />
         </Helmet>
-        <MaintenanceScreen reason={APP_CONFIG.maintenance.reason} />
+        <ThemeEffects theme={APP_CONFIG.theme.current} />
+        {!isAuthenticated ? (
+          <LoginScreen onLogin={handleLogin} />
+        ) : (
+          <MidiGenerator onLogout={handleLogout} />
+        )}
+        <Toaster />
       </>
     );
-  }
+  };
 
   return (
-    <>
-      <Helmet>
-        <title>MIDI PLUS - AI MIDI Generator</title>
-        <meta name="description" content="Generate professional MIDI files with AI technology" />
-      </Helmet>
-      <ThemeEffects theme={APP_CONFIG.theme.current} />
-      {!isAuthenticated ? (
-        <LoginScreen onLogin={handleLogin} />
-      ) : (
-        <MidiGenerator onLogout={handleLogout} />
-      )}
-      <Toaster />
-    </>
+    <DevToolsBlocker>
+      <AppContent />
+    </DevToolsBlocker>
   );
 }
 
