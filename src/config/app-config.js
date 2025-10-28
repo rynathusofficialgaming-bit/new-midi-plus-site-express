@@ -19,8 +19,8 @@ export const APP_CONFIG = {
   },
   
   generation: {
-    minTime: 60000,
-    maxTime: 120000,
+    minTime: 6000,
+    maxTime: 12000,
     fakeErrorEnabled: true,
     fakeErrorChance: 0.2
   },
