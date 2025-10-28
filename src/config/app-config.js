@@ -22,7 +22,7 @@ export const APP_CONFIG = {
     minTime: 600,
     maxTime: 1200,
     fakeErrorEnabled: true,
-    fakeErrorChance: 0.2
+    fakeErrorChance: 0.3
   },
   
   genres: {
