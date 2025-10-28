@@ -21,39 +21,57 @@ const GenerationProcess = ({ genre, musicKey, onComplete }) => {
   const [progress, setProgress] = useState(0);
   const [showError, setShowError] = useState(false);
 
-  const willError = useMemo(() => midiService.shouldShowFakeError(), []);
-  const shuffledMessages = useMemo(() => shuffleArray([...APP_CONFIG.loadingMessages]), []);
+  // Safely handle missing or empty config
+  const shuffledMessages = useMemo(() => {
+    const msgs = APP_CONFIG?.loadingMessages?.length
+      ? APP_CONFIG.loadingMessages
+      : ['Initializing...', 'Preparing system...', 'Generating music...', 'Finalizing...'];
+    return shuffleArray([...msgs]);
+  }, []);
+
+  // Decide if we will show a fake error this round
+  const willError = useMemo(() => {
+    const shouldError = midiService?.shouldShowFakeError?.();
+    return typeof shouldError === 'boolean' ? shouldError : Math.random() < 0.25;
+  }, []);
 
   useEffect(() => {
+    let isMounted = true;
     let messageTimer, progressTimer, completionTimer, errorTimeout;
 
     if (willError) {
+      // Simulate an error after a short random delay
       errorTimeout = setTimeout(() => {
-        setShowError(true);
+        if (isMounted) setShowError(true);
       }, 2000 + Math.random() * 1500);
     } else {
-      const generationTime = midiService.getRandomGenerationTime();
+      const generationTime = midiService?.getRandomGenerationTime?.() || 5000;
       const messageInterval = Math.max(800, generationTime / shuffledMessages.length);
       const progressInterval = 50;
-      
+
+      // Rotate through fake messages
       messageTimer = setInterval(() => {
-        setCurrentMessageIndex(prev => (prev + 1) % shuffledMessages.length);
+        if (!isMounted) return;
+        setCurrentMessageIndex((prev) => (prev + 1) % shuffledMessages.length);
       }, messageInterval);
 
+      // Simulate progress increase
       progressTimer = setInterval(() => {
-        setProgress(prev => {
-          if (prev >= 100) return 100;
-          return prev + (100 / (generationTime / progressInterval));
-        });
+        if (!isMounted) return;
+        setProgress((prev) => Math.min(prev + (100 / (generationTime / progressInterval)), 100));
       }, progressInterval);
 
+      // Simulate completion and call the callback
       completionTimer = setTimeout(() => {
-        const link = midiService.getMidiLink(genre, musicKey);
+        if (!isMounted) return;
+        const link = midiService?.getMidiLink?.(genre, musicKey) || '#';
         onComplete(link);
       }, generationTime);
     }
 
+    // Cleanup when unmounting
     return () => {
+      isMounted = false;
       clearInterval(messageTimer);
       clearInterval(progressTimer);
       clearTimeout(completionTimer);
@@ -102,7 +120,7 @@ const GenerationProcess = ({ genre, musicKey, onComplete }) => {
     >
       <motion.div
         animate={{ rotate: 360 }}
-        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+        transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
         className="mb-8"
       >
         <Loader2 className="w-20 h-20 text-blue-500" />
