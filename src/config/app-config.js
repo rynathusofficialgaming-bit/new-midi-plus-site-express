@@ -14,7 +14,7 @@ export const APP_CONFIG = {
   },
   
   theme: {
-    current: "default",
+    current: "halloween",
     available: ["default", "christmas", "halloween"]
   },
   
